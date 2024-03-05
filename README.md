@@ -1,0 +1,2 @@
+# MNS
+Structural Bayesian VAR
