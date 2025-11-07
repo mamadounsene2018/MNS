@@ -137,5 +137,5 @@ Thumbs.db
 *.csv
 *.xlsx
 *.xls
-data/
+/data/
 cache/
