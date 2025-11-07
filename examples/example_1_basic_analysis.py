@@ -4,7 +4,10 @@ This example demonstrates how to fetch and analyze stock data for African compan
 """
 
 import sys
-sys.path.insert(0, '/home/runner/work/MNS/MNS/src')
+import os
+
+# Add src directory to path for imports
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from african_stock_analysis import StockDataFetcher, FinancialRatios, TrendAnalyzer, ChartGenerator
 

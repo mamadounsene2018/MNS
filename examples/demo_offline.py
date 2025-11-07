@@ -3,7 +3,10 @@ Demo script showing the application features without requiring internet access
 """
 
 import sys
-sys.path.insert(0, '/home/runner/work/MNS/MNS/src')
+import os
+
+# Add src directory to path for imports
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from african_stock_analysis import StockDataFetcher
 from african_stock_analysis.utils import get_african_exchanges, get_sector_info, format_currency

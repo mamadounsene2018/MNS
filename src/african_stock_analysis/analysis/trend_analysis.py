@@ -197,17 +197,19 @@ class TrendAnalyzer:
         """
         # Calculate RSI
         rsi = self.calculate_rsi()
-        current_rsi = rsi.iloc[-1] if not rsi.empty else 50
+        current_rsi = rsi.iloc[-1] if not rsi.empty and len(rsi) > 0 else 50
         
         # Calculate MACD
         macd_line, signal_line, _ = self.calculate_macd()
-        macd_signal = 1 if macd_line.iloc[-1] > signal_line.iloc[-1] else -1
+        macd_signal = 0
+        if not macd_line.empty and not signal_line.empty and len(macd_line) > 0 and len(signal_line) > 0:
+            macd_signal = 1 if macd_line.iloc[-1] > signal_line.iloc[-1] else -1
         
         # Calculate price position relative to moving averages
         sma_20 = self.calculate_sma(20)
         sma_50 = self.calculate_sma(50)
         
-        current_price = self.data['Close'].iloc[-1]
+        current_price = self.data['Close'].iloc[-1] if len(self.data) > 0 else 0
         sma_score = 0
         
         if not sma_20.empty and not pd.isna(sma_20.iloc[-1]):
@@ -235,14 +237,17 @@ class TrendAnalyzer:
         Returns:
             Formatted string with analysis summary
         """
+        if len(self.data) == 0:
+            return "No data available for analysis"
+        
         trend = self.identify_trend()
         momentum = self.get_momentum_score()
         
         # Get latest values
         current_price = self.data['Close'].iloc[-1]
-        sma_20 = self.calculate_sma(20).iloc[-1]
-        sma_50 = self.calculate_sma(50).iloc[-1]
-        rsi = self.calculate_rsi().iloc[-1]
+        sma_20 = self.calculate_sma(20).iloc[-1] if len(self.calculate_sma(20)) > 0 else None
+        sma_50 = self.calculate_sma(50).iloc[-1] if len(self.calculate_sma(50)) > 0 else None
+        rsi = self.calculate_rsi().iloc[-1] if len(self.calculate_rsi()) > 0 else None
         
         summary = "=== Technical Analysis Summary ===\n"
         summary += f"Current Price: {current_price:.2f}\n"

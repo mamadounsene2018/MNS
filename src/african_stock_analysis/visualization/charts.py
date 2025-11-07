@@ -56,12 +56,11 @@ class ChartGenerator:
         
         # Plot volume if requested
         if ax2 is not None and 'Volume' in stock_data.columns:
-            colors = ['green' if stock_data['Close'].iloc[i] >= stock_data['Open'].iloc[i] 
-                     else 'red' 
-                     for i in range(len(stock_data)) 
-                     if i < len(stock_data) and 'Open' in stock_data.columns]
-            
-            if not colors:
+            # Determine colors based on price movement if Open data is available
+            if 'Open' in stock_data.columns:
+                colors = ['green' if row['Close'] >= row['Open'] else 'red' 
+                         for idx, row in stock_data.iterrows()]
+            else:
                 colors = 'gray'
             
             ax2.bar(stock_data.index, stock_data['Volume'], color=colors, alpha=0.6)
